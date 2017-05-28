@@ -1,0 +1,12 @@
+# Generic
+*.DS_Store
+.com.apple.timemachine.supported
+*~
+*/tmp/*
+
+# Dev
+.idea/
+
+# NPM
+npm-debug.log
+node_modules/

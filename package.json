@@ -1,0 +1,27 @@
+{
+  "name": "jumbotron-ci",
+  "version": "1.0.0",
+  "description": "CI tools for JumboTRON",
+  "main": "start.js",
+  "scripts": {
+    "do-deps": "rm -rf node_modules/ && npm i",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasmuslp/jumbotron-ci.git"
+  },
+  "author": {
+    "name": "Rasmus Ljungmann Pedersen",
+    "email": "rasmuslp@gmail.com"
+  },
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/rasmuslp/jumbotron-ci/issues"
+  },
+  "homepage": "https://github.com/rasmuslp/jumbotron-ci#readme",
+  "dependencies": {
+    "aws-sdk": "^2.58.0",
+    "dotenv": "^4.0.0"
+  }
+}
