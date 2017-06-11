@@ -52,7 +52,7 @@ function argumentExtractor() {
 	// Extract target environment and massage it
 	let targetEnv = args.pop();
 	if (typeof targetEnv !== 'undefined') {
-		if (!(['PRODUCTION', 'STAGING', 'DEVELOPMENT'].includes(process.env.TARGET_ENV))) {
+		if (!(['PRODUCTION', 'STAGING', 'DEVELOPMENT'].includes(targetEnv.toUpperCase()))) {
 			// Not a target environment. Lets put that thing back
 			args.push(targetEnv);
 		}
