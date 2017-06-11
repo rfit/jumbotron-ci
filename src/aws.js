@@ -50,14 +50,12 @@ function getLambda() {
 /// Commands
 
 function updateFunctionCode() {
-
-	let targetEnv = process.env.TARGET_ENV;
-	targetEnv = targetEnv.charAt(0).toUpperCase() + targetEnv.slice(1).toLowerCase();
+	const targetEnv = process.env.TARGET_ENV;
 
 	const FunctionCode = fs.readFileSync(`${process.cwd()}/Function.zip`);
 
 	const params = {
-		FunctionName: `${process.env.AWS_LAMBDA_FUNCTION_NAME}-${targetEnv}`,
+		FunctionName: `${process.env.AWS_LAMBDA_FUNCTION_NAME}-${targetEnv.toLowerCase()}`,
 		ZipFile: FunctionCode
 	};
 

@@ -1,14 +1,10 @@
 const childProcess = require('child_process');
 
-console.log(process.cwd());
-
 const environment = require('./environment');
 
 // Namespaces
-const aws = require('./aws');
-
 const namespaces = {
-	aws
+	aws: require('./aws')
 };
 
 function run() {
