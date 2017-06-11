@@ -51,6 +51,8 @@ Create functions for the three environments
 * Memory: Maximum (1536 MB)
 * Timeout: Maximum (5 min)
 
+### TODO
+- [ ] SQS / SNS ?
 
 ### Access policy
 ```json
