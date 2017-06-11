@@ -81,6 +81,16 @@ Create functions for the three environments
             "Resource": [
                 "arn:aws:logs:*:*:*"
             ]
+        },
+        {
+            "Sid": "Lambda",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:UpdateFunctionCode"
+            ],
+            "Resource": [
+                "arn:aws:lambda:*:*:function:Jumbotron*"
+            ]
         }
     ]
 }
