@@ -51,19 +51,21 @@ function argumentExtractor() {
 
 	// Extract target environment and massage it
 	let targetEnv = args.pop();
-	if (!targetEnv) {
-		return die('Target environment not set');
-	}
-	process.env.TARGET_ENV = (targetEnv || '').toUpperCase();
-
-	if (!(['PRODUCTION', 'STAGING', 'DEVELOPMENT'].includes(process.env.TARGET_ENV))) {
-		return die('Target environment not recognized');
+	if (typeof targetEnv !== 'undefined') {
+		if (!(['PRODUCTION', 'STAGING', 'DEVELOPMENT'].includes(process.env.TARGET_ENV))) {
+			// Not a target environment. Lets put that thing back
+			args.push(targetEnv);
+		}
+		else {
+			// Assign target environment
+			process.env.TARGET_ENV = targetEnv.toUpperCase();
+			console.log('Target environment:', process.env.TARGET_ENV);
+		}
 	}
 
 	// DEBUG
 	console.log('Command:', command);
-	console.log('Args:', args);
-	console.log('Target env:', process.env.TARGET_ENV);
+	console.log('arguments:', args);
 
 	return [namespace, command, args];
 }

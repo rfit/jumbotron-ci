@@ -4,7 +4,9 @@ require('dotenv').config({path: process.cwd()});
 function ensure(vars) {
 	return new Promise((resolve, reject) => {
 		vars.forEach(v => {
-			const enhancedEnvVarName = `${process.env.TARGET_ENV.substr(0, 3).toUpperCase()}_${v.toUpperCase()}`;
+			let enhancedEnvVarName = process.env.TARGET_ENV ? process.env.TARGET_ENV.substr(0, 3).toUpperCase() + '_' : '';
+			enhancedEnvVarName += v.toUpperCase();
+
 			const envVarName = v.toUpperCase();
 
 			// Override generic with specific
@@ -23,6 +25,15 @@ function ensure(vars) {
 	});
 }
 
+function hasTargetEnvironment() {
+	if (process.env.TARGET_ENV) {
+		return Promise.resolve();
+	}
+
+	return Promise.reject('Target environment not specified');
+}
+
 module.exports = {
-	ensure
+	ensure,
+	hasTargetEnvironment
 };

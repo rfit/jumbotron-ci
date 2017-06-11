@@ -16,11 +16,14 @@ const commands = {
 
 function commandHandler(command, args) {
 	if (commands.hasOwnProperty(command)) {
-		return environment.ensure([
-			'AWS_ACCESS_KEY_ID',
-			'AWS_SECRET_ACCESS_KEY',
-			'AWS_REGION',
-		])
+		return environment.hasTargetEnvironment()
+			.then(() => {
+				return environment.ensure([
+					'AWS_ACCESS_KEY_ID',
+					'AWS_SECRET_ACCESS_KEY',
+					'AWS_REGION',
+				])
+			})
 			.then(() => {
 				return environment.ensure(commands[command].requiredEnvVars);
 			})
