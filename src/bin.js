@@ -4,7 +4,8 @@ const environment = require('./environment');
 
 // Namespaces
 const namespaces = {
-	aws: require('./aws')
+	aws: require('./aws'),
+	circleci: require('./circleci')
 };
 
 function run() {
@@ -82,7 +83,7 @@ function exec(cmd){
 				err.code = code;
 				err.cmd = cmd;
 
-				return void reject(err);
+				return reject(err);
 			}
 
 			return resolve();
