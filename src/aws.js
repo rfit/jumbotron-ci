@@ -22,7 +22,7 @@ function commandHandler(command, args) {
 					'AWS_ACCESS_KEY_ID',
 					'AWS_SECRET_ACCESS_KEY',
 					'AWS_REGION',
-				])
+				]);
 			})
 			.then(() => {
 				return environment.ensure(commands[command].requiredEnvVars);
@@ -73,7 +73,7 @@ function updateFunctionCode() {
 			}
 
 			return resolve();
-		})
+		});
 	});
 }
 

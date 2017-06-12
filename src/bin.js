@@ -1,7 +1,5 @@
 const childProcess = require('child_process');
 
-const environment = require('./environment');
-
 // Namespaces
 const namespaces = {
 	aws: require('./aws'),
@@ -71,6 +69,7 @@ function argumentExtractor() {
 }
 
 // Run commands in the shell
+// eslint-disable-next-line no-unused-vars
 function exec(cmd){
 	const [path, ...args] = cmd.split(/\s+/g);
 

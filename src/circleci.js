@@ -55,7 +55,7 @@ function setBuildDetails() {
 
 			let jsonData = {};
 			try {
-				 jsonData = JSON.parse(data);
+				jsonData = JSON.parse(data);
 			}
 			catch (e) {
 				return reject(`Could not parse ${packageJsonPath}`);

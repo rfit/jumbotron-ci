@@ -17,7 +17,7 @@ function ensure(vars) {
 
 			// Check generic is set
 			if (!process.env[envVarName]) {
-				reject(`Missing environment variable: '${envVarName}'`)
+				reject(`Missing environment variable: '${envVarName}'`);
 			}
 		});
 
