@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:6.10.3
+
+    working_directory: ~/app
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+           - node-modules-{{ checksum "package.json" }}
+
+      - run:
+          command: npm install --quiet
+
+      - save_cache:
+          key: node-modules-{{ checksum "package.json" }}
+          paths:
+            - "node-modules"
+
+      - run:
+          command: npm run lint
