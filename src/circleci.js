@@ -27,8 +27,8 @@ function commandHandler(command, args) {
 	}
 }
 
-function setBuildDetails() {
-	const packageJsonPath = `${process.cwd()}/package.json`;
+function setBuildDetails(packageJsonSubPath) {
+	const packageJsonPath = `${process.cwd()}/${packageJsonSubPath}`;
 
 	const buildDetails = {};
 
