@@ -19,7 +19,7 @@ jobs:
       - save_cache:
           key: node-modules-{{ checksum "package.json" }}
           paths:
-            - "node-modules"
+            - "node_modules"
 
       - run:
           command: npm run lint
