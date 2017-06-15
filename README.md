@@ -18,12 +18,25 @@ Create a `jumbotron` user with programmatic access for the backend + CI/CD and a
 #### 3. Create IAM role
 Create an `AWS Service Role` for `AWS Lambda` named `JumbotronLambdaRole` and attach the policy created.
 
-#### Create S3 bucket
+#### 4. Create S3 bucket
 Create a `rfjumbotron` bucket without properties and any permissions.
 
 **TODO**: Bucket policy and CORS
 
-#### Create Lambda functions
+#### 5. Create SQS queues
+Create queues for the three environments
+* `development`
+* `staging`
+* `production`
+
+##### JumbotronMediaProcessingResults
+Create new queue
+* Name: `JumbotronMediaProcessingResults-<environment`
+* Visibility timeout: 60 sec
+* Message retention period: Maximum (14 days)
+* Receive Message Wait Time: Maximum (20 sec) (for long polling)
+
+#### 6. Create Lambda functions
 Create functions for the three environments
 * `development`
 * `staging`
@@ -46,13 +59,12 @@ Create functions for the three environments
 * No trigger
 * Name: `JumbotronMediaProcessing-<environment>`
 * Runtime: Node 6.10
-* ENV: `TARGET_ENV`: `<environment>`
+* ENV:
+  * `TARGET_ENV`: `<environment>`
+  * `QUEUE_URL`: URL for matching queue and environment
 * Role: The role created
 * Memory: Maximum (1536 MB)
 * Timeout: Maximum (5 min)
-
-### TODO
-- [ ] SQS / SNS ?
 
 ### Access policy
 ```json
@@ -92,6 +104,18 @@ Create functions for the three environments
             ],
             "Resource": [
                 "arn:aws:lambda:*:*:function:Jumbotron*"
+            ]
+        },
+        {
+            "Sid": "SQS",
+            "Effect": "Allow",
+            "Action": [
+                "sqs:DeleteMessage",
+                "sqs:ReceiveMessage",
+                "sqs:SendMessage"
+            ],
+            "Resource": [
+                "arn:aws:sqs:*:*:*"
             ]
         }
     ]
