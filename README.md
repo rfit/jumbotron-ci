@@ -100,7 +100,7 @@ Create functions for the three environments
             "Sid": "Lambda",
             "Effect": "Allow",
             "Action": [
-                "lambda:InvokeFunction"
+                "lambda:InvokeFunction",
                 "lambda:UpdateFunctionCode"
             ],
             "Resource": [
