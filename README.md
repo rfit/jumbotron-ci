@@ -50,7 +50,9 @@ Create functions for the three environments
   * Prefix: `<environment>/uploads`
 * Name: `JumbotronFileAdded-<environment>`
 * Runtime: Node 6.10
-* ENV: `TARGET_ENV`: `<environment>`
+* ENV:
+  * `TARGET_ENV`: `<environment>`
+	* `MEDIA_FN`: `JumbotronMediaProcessing`
 * Role: The role created
 * Timeout: Maximum (5 min)
 
