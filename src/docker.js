@@ -7,8 +7,7 @@ const commands = {
 	'build-and-push': {
 		requiredEnvVars: [
 			'CIRCLE_PROJECT_USERNAME',
-			'CIRCLE_PROJECT_REPONAME',
-
+			'CIRCLE_PROJECT_REPONAME'
 		],
 		fn: buildAndPush
 	},
@@ -21,12 +20,9 @@ const commands = {
 
 function commandHandler(command, args) {
 	if (commands.hasOwnProperty(command)) {
-		return environment.hasTargetEnvironment()
-			.then(() => {
-				return environment.ensure([
-					'CIRCLECI'
-				]);
-			})
+		return environment.ensure([
+			'CIRCLECI'
+		])
 			.then(() => {
 				return environment.ensure(commands[command].requiredEnvVars);
 			})
