@@ -1,5 +1,3 @@
-const childProcess = require('child_process');
-
 // Namespaces
 const namespaces = {
 	aws: require('./aws'),
@@ -66,28 +64,4 @@ function argumentExtractor() {
 	console.log('arguments:', args);
 
 	return [namespace, command, args];
-}
-
-// Run commands in the shell
-// eslint-disable-next-line no-unused-vars
-function exec(cmd){
-	const [path, ...args] = cmd.split(/\s+/g);
-
-	return new Promise((resolve, reject) => {
-		// Spawn process
-		const p = childProcess.spawn(path, args, {stdio: 'inherit'});
-
-		// Wait for exit
-		p.on('exit', code => {
-			if (code !== 0) {
-				const err = new Error(`command "${cmd}" exited with wrong status code: ${code}`);
-				err.code = code;
-				err.cmd = cmd;
-
-				return reject(err);
-			}
-
-			return resolve();
-		});
-	});
 }
