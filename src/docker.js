@@ -13,6 +13,10 @@ const commands = {
 	},
 	deploy: {
 		requiredEnvVars: [
+			'DEPLOY_USER',
+			'DEPLOY_HOST',
+			'CIRCLE_PROJECT_USERNAME',
+			'CIRCLE_PROJECT_REPONAME',
 		],
 		fn: deploy
 	}
@@ -38,36 +42,91 @@ function commandHandler(command, args) {
 /// Commands
 
 function buildAndPush() {
-	const user = process.env.CIRCLE_PROJECT_USERNAME;
-	const repo = process.env.$CIRCLE_PROJECT_REPONAME;
-	const tag = process.env.CIRCLE_TAG ? process.env.CIRCLE_TAG : 'staging';
+	const projectUser = process.env.CIRCLE_PROJECT_USERNAME;
+	const projectRepo = process.env.$CIRCLE_PROJECT_REPONAME;
+	const projectTag = process.env.CIRCLE_TAG ? process.env.CIRCLE_TAG : 'staging';
 
 	return Promise.resolve()
 		.then(() => {
 			// Build Docker image
 			const cmd = '/bin/sh';
-			const args = ['-c', 'docker', 'build', '-t', `${user}/${repo}`, '.'];
+			const args = ['-c', 'docker', 'build', '-t', `${projectUser}/${projectRepo}`, '.'];
 
 			return utils.exec(cmd, args);
 		})
 		.then(() => {
 			// Tag Docker image
 			const cmd = '/bin/sh';
-			const args = ['-c', 'docker', 'tag', `${user}/${repo}`, `${user}/${repo}:${tag}`];
+			const args = ['-c', 'docker', 'tag', `${projectUser}/${projectRepo}`, `${projectUser}/${projectRepo}:${projectTag}`];
 
 			return utils.exec(cmd, args);
 		})
 		.then(() => {
 			// Push Docker image
 			const cmd = '/bin/sh';
-			const args = ['-c', 'docker', 'push', `${user}/${repo}:${tag}`];
+			const args = ['-c', 'docker', 'push', `${projectUser}/${projectRepo}:${projectTag}`];
 
 			return utils.exec(cmd, args);
 		});
 }
 
 function deploy() {
+	const projectUser = process.env.CIRCLE_PROJECT_USERNAME;
+	const projectRepo = process.env.$CIRCLE_PROJECT_REPONAME;
+	const projectTag = process.env.CIRCLE_TAG ? process.env.CIRCLE_TAG : 'staging';
 
+	const deployHost = process.env.DEPLOY_HOST;
+	const deployUser = process.env.DEPLOY_USER;
+
+	return Promise.resolve()
+		.then(() => {
+			// Pull image
+			const cmd = '/bin/sh';
+			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker pull ${projectUser}/${projectRepo}:${projectTag}"`];
+
+			console.log('Pulling image...');
+			return utils.exec(cmd, args);
+		})
+		.then(() => {
+			// Stopping container
+			const cmd = '/bin/sh';
+			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker stop ${projectRepo} || true"`];
+
+			console.log('Stopping container...');
+			return utils.exec(cmd, args);
+		})
+		.then(() => {
+			// Removing container
+			const cmd = '/bin/sh';
+			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker rm ${projectRepo} || true"`];
+
+			console.log('Removing container...');
+			return utils.exec(cmd, args);
+		})
+		.then(() => {
+			// Removing image
+			const cmd = '/bin/sh';
+			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker rmi ${projectUser}/${projectRepo}:current || true"`];
+
+			console.log('Removing image...');
+			return utils.exec(cmd, args);
+		})
+		.then(() => {
+			// Tagging image
+			const cmd = '/bin/sh';
+			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker tag ${projectUser}/${projectRepo}:${projectTag} ${projectUser}/${projectRepo}:current"`];
+
+			console.log('Tagging image...');
+			return utils.exec(cmd, args);
+		})
+		.then(() => {
+			// Starting container
+			const cmd = '/bin/sh';
+			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker run -d --name ${projectRepo} -e NODE_ENV='production' ${projectUser}/${projectRepo}:current"`];
+
+			console.log('Starting container...');
+			return utils.exec(cmd, args);
+		});
 }
 
 module.exports = {
