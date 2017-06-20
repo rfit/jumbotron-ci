@@ -1,6 +1,7 @@
 // Namespaces
 const namespaces = {
 	aws: require('./aws'),
+	docker: require('./docker'),
 	project: require('./project')
 };
 
