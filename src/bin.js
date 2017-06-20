@@ -3,7 +3,7 @@ const childProcess = require('child_process');
 // Namespaces
 const namespaces = {
 	aws: require('./aws'),
-	circleci: require('./circleci')
+	project: require('./project')
 };
 
 function run() {
