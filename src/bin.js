@@ -28,7 +28,7 @@ run();
 
 // Die and print help
 function die(reason) {
-	console.log(`Syntax:\n\t$ aws <namespace> <command> [<args>] <target-environment>\n`);
+	console.log(`Syntax:\n\t$ <namespace> <command> [<args>] <target-environment>\n`);
 	console.log('Namespaces:');
 	for (let namespaceName in namespaces) {
 		console.log(`\t${namespaceName}\n\t\tCommands:`);
