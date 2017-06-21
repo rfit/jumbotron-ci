@@ -4,6 +4,7 @@ const childProcess = require('child_process');
 function exec(cmd, args, options){
 	return new Promise((resolve, reject) => {
 		const opts = Object.assign({}, {stdio: 'inherit'}, options);
+		console.log('utils.exec', cmd, args);
 
 		// Spawn process
 		const p = childProcess.spawn(cmd, args, opts);
