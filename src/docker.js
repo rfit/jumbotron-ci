@@ -78,7 +78,17 @@ function deploy() {
 	const deployHost = process.env.DEPLOY_HOST;
 	const deployUser = process.env.DEPLOY_USER;
 
-	return Promise.resolve()
+	const dockerEnvVarsRequired = [
+		'AWS__ACCESS_KEY_ID',
+		'AWS__SECRET_ACCESS_KEY',
+		'AWS__S3_BUCKET',
+		'FIREBASE__URL',
+		'FIREBASE__SECRET',
+		'LOGGLY__TOKEN',
+		'LOGGLY__SUBDOMAIN'
+	];
+
+	return environment.ensure(dockerEnvVarsRequired)
 		.then(() => {
 			// Pull image
 			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `docker pull ${projectUser}/${projectRepo}:${projectTag}`];
@@ -116,7 +126,13 @@ function deploy() {
 		})
 		.then(() => {
 			// Starting container
-			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `docker run -d --name ${projectRepo} -e NODE_ENV='production' ${projectUser}/${projectRepo}:current`];
+			let dockerEnvVars = '';
+			dockerEnvVarsRequired.forEach(envVar => {
+				dockerEnvVars += `-e ${envVar.toLowerCase()}=${process.env[envVar]} `;
+			});
+			dockerEnvVars = dockerEnvVars.slice(0, -1);
+
+			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `docker run -d --name ${projectRepo} -e NODE_ENV='production' ${dockerEnvVars} ${projectUser}/${projectRepo}:current`];
 
 			console.log('Starting container...');
 			return utils.exec('ssh', args);
