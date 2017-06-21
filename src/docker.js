@@ -82,42 +82,42 @@ function deploy() {
 		.then(() => {
 			// Pull image
 
-			const args = ['-o', '"StrictHostKeyChecking=no"', `${deployUser}@${deployHost}`, `"docker pull ${projectUser}/${projectRepo}:${projectTag}"`];
+			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `"docker pull ${projectUser}/${projectRepo}:${projectTag}"`];
 
 			console.log('Pulling image...');
 			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Stopping container
-			const args = ['-o', '"StrictHostKeyChecking=no"', `${deployUser}@${deployHost}`, `"docker stop ${projectRepo} || true"`];
+			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `"docker stop ${projectRepo} || true"`];
 
 			console.log('Stopping container...');
 			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Removing container
-			const args = ['-o', '"StrictHostKeyChecking=no"', `${deployUser}@${deployHost}`, `"docker rm ${projectRepo} || true"`];
+			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `"docker rm ${projectRepo} || true"`];
 
 			console.log('Removing container...');
 			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Removing image
-			const args = ['-o', '"StrictHostKeyChecking=no"', `${deployUser}@${deployHost}`, `"docker rmi ${projectUser}/${projectRepo}:current || true"`];
+			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `"docker rmi ${projectUser}/${projectRepo}:current || true"`];
 
 			console.log('Removing image...');
 			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Tagging image
-			const args = ['-o', '"StrictHostKeyChecking=no"', `${deployUser}@${deployHost}`, `"docker tag ${projectUser}/${projectRepo}:${projectTag} ${projectUser}/${projectRepo}:current"`];
+			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `"docker tag ${projectUser}/${projectRepo}:${projectTag} ${projectUser}/${projectRepo}:current"`];
 
 			console.log('Tagging image...');
 			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Starting container
-			const args = ['-o', '"StrictHostKeyChecking=no"', `${deployUser}@${deployHost}`, `"docker run -d --name ${projectRepo} -e NODE_ENV='production' ${projectUser}/${projectRepo}:current"`];
+			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `"docker run -d --name ${projectRepo} -e NODE_ENV='production' ${projectUser}/${projectRepo}:current"`];
 
 			console.log('Starting container...');
 			return utils.exec('ssh', args);
