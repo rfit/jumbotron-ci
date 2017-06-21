@@ -81,51 +81,45 @@ function deploy() {
 	return Promise.resolve()
 		.then(() => {
 			// Pull image
-			const cmd = '/bin/sh';
-			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker pull ${projectUser}/${projectRepo}:${projectTag}"`];
+			const args = [`${deployUser}@${deployHost}`, `"docker pull ${projectUser}/${projectRepo}:${projectTag}"`];
 
 			console.log('Pulling image...');
-			return utils.exec(cmd, args);
+			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Stopping container
-			const cmd = '/bin/sh';
-			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker stop ${projectRepo} || true"`];
+			const args = [`${deployUser}@${deployHost}`, `"docker stop ${projectRepo} || true"`];
 
 			console.log('Stopping container...');
-			return utils.exec(cmd, args);
+			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Removing container
-			const cmd = '/bin/sh';
-			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker rm ${projectRepo} || true"`];
+			const args = [`${deployUser}@${deployHost}`, `"docker rm ${projectRepo} || true"`];
 
 			console.log('Removing container...');
-			return utils.exec(cmd, args);
+			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Removing image
-			const cmd = '/bin/sh';
-			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker rmi ${projectUser}/${projectRepo}:current || true"`];
+			const args = [`${deployUser}@${deployHost}`, `"docker rmi ${projectUser}/${projectRepo}:current || true"`];
 
 			console.log('Removing image...');
-			return utils.exec(cmd, args);
+			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Tagging image
-			const cmd = '/bin/sh';
-			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker tag ${projectUser}/${projectRepo}:${projectTag} ${projectUser}/${projectRepo}:current"`];
+			const args = [`${deployUser}@${deployHost}`, `"docker tag ${projectUser}/${projectRepo}:${projectTag} ${projectUser}/${projectRepo}:current"`];
 
 			console.log('Tagging image...');
-			return utils.exec(cmd, args);
+			return utils.exec('ssh', args);
 		})
 		.then(() => {
 			// Starting container
-			const cmd = '/bin/sh';
-			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker run -d --name ${projectRepo} -e NODE_ENV='production' ${projectUser}/${projectRepo}:current"`];
+			const args = [`${deployUser}@${deployHost}`, `"docker run -d --name ${projectRepo} -e NODE_ENV='production' ${projectUser}/${projectRepo}:current"`];
 
 			console.log('Starting container...');
-			return utils.exec(cmd, args);
+			return utils.exec('ssh', args);
 		});
 }
 
