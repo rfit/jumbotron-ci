@@ -84,7 +84,7 @@ function deploy() {
 			const cmd = '/bin/sh';
 			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker pull ${projectUser}/${projectRepo}:${projectTag}"`];
 
-			console.log('Pulling image...');
+			console.log('Pulling image...', cmd, args);
 			return utils.exec(cmd, args);
 		})
 		.then(() => {
@@ -92,7 +92,7 @@ function deploy() {
 			const cmd = '/bin/sh';
 			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker stop ${projectRepo} || true"`];
 
-			console.log('Stopping container...');
+			console.log('Stopping container...', cmd, args);
 			return utils.exec(cmd, args);
 		})
 		.then(() => {
@@ -100,7 +100,7 @@ function deploy() {
 			const cmd = '/bin/sh';
 			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker rm ${projectRepo} || true"`];
 
-			console.log('Removing container...');
+			console.log('Removing container...', cmd, args);
 			return utils.exec(cmd, args);
 		})
 		.then(() => {
@@ -108,7 +108,7 @@ function deploy() {
 			const cmd = '/bin/sh';
 			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker rmi ${projectUser}/${projectRepo}:current || true"`];
 
-			console.log('Removing image...');
+			console.log('Removing image...', cmd, args);
 			return utils.exec(cmd, args);
 		})
 		.then(() => {
@@ -116,7 +116,7 @@ function deploy() {
 			const cmd = '/bin/sh';
 			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker tag ${projectUser}/${projectRepo}:${projectTag} ${projectUser}/${projectRepo}:current"`];
 
-			console.log('Tagging image...');
+			console.log('Tagging image...', cmd, args);
 			return utils.exec(cmd, args);
 		})
 		.then(() => {
@@ -124,7 +124,7 @@ function deploy() {
 			const cmd = '/bin/sh';
 			const args = ['-c', 'ssh', `${deployUser}@${deployHost}`, `"docker run -d --name ${projectRepo} -e NODE_ENV='production' ${projectUser}/${projectRepo}:current"`];
 
-			console.log('Starting container...');
+			console.log('Starting container...', cmd, args);
 			return utils.exec(cmd, args);
 		});
 }
