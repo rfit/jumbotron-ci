@@ -132,7 +132,7 @@ function deploy() {
 			});
 			dockerEnvVars = dockerEnvVars.slice(0, -1);
 
-			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `docker run -d --name ${projectRepo} -e NODE_ENV='production' ${dockerEnvVars} ${projectUser}/${projectRepo}:current`];
+			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `docker run -d --name ${projectRepo} -e NODE_ENV=production ${dockerEnvVars} ${projectUser}/${projectRepo}:current`];
 
 			console.log('Starting container...');
 			return utils.exec('ssh', args);
