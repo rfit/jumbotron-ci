@@ -4,15 +4,25 @@ require('dotenv').config({path: process.cwd()});
 function ensure(vars) {
 	return new Promise((resolve, reject) => {
 		vars.forEach(v => {
-			let enhancedEnvVarName = process.env.TARGET_ENV ? process.env.TARGET_ENV.substr(0, 3).toUpperCase() + '_' : '';
-			enhancedEnvVarName += v.toUpperCase();
-
+			// The env var to ensure is set in some way
 			const envVarName = v.toUpperCase();
 
-			// Override generic with specific
-			const targetEnvValue = process.env[enhancedEnvVarName];
-			if (targetEnvValue) {
-				process.env[envVarName] = targetEnvValue;
+			// Override generic with 4 prefixed env var
+			let pre4envVarName = process.env.TARGET_ENV ? process.env.TARGET_ENV.substr(0, 4).toUpperCase() + '_' : '';
+			pre4envVarName += v.toUpperCase();
+
+			const pre4envValue = process.env[pre4envVarName];
+			if (pre4envValue) {
+				process.env[envVarName] = pre4envValue;
+			}
+
+			// Override generic with 3 prefixed env var
+			let pre3envVarName = process.env.TARGET_ENV ? process.env.TARGET_ENV.substr(0, 3).toUpperCase() + '_' : '';
+			pre3envVarName += v.toUpperCase();
+
+			const pre3envValue = process.env[pre3envVarName];
+			if (pre3envValue) {
+				process.env[envVarName] = pre3envValue;
 			}
 
 			// Check generic is set
