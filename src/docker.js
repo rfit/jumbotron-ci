@@ -49,24 +49,24 @@ function buildAndPush() {
 	return Promise.resolve()
 		.then(() => {
 			// Build Docker image
-			const cmd = '/bin/sh';
-			const args = ['-c', 'docker', 'build', '-t', `${projectUser}/${projectRepo}`, '.'];
+			const args = ['build', '-t', `${projectUser}/${projectRepo}`, '.'];
 
-			return utils.exec(cmd, args);
+			console.log('Build Docker image...');
+			return utils.exec('docker', args);
 		})
 		.then(() => {
 			// Tag Docker image
-			const cmd = '/bin/sh';
-			const args = ['-c', 'docker', 'tag', `${projectUser}/${projectRepo}`, `${projectUser}/${projectRepo}:${projectTag}`];
+			const args = ['tag', `${projectUser}/${projectRepo}`, `${projectUser}/${projectRepo}:${projectTag}`];
 
-			return utils.exec(cmd, args);
+			console.log('Tag Docker image...');
+			return utils.exec('docker', args);
 		})
 		.then(() => {
 			// Push Docker image
-			const cmd = '/bin/sh';
-			const args = ['-c', 'docker', 'push', `${projectUser}/${projectRepo}:${projectTag}`];
+			const args = ['push', `${projectUser}/${projectRepo}:${projectTag}`];
 
-			return utils.exec(cmd, args);
+			console.log('Push Docker image...');
+			return utils.exec('docker', args);
 		});
 }
 
@@ -81,7 +81,6 @@ function deploy() {
 	return Promise.resolve()
 		.then(() => {
 			// Pull image
-
 			const args = ['-o', 'StrictHostKeyChecking=no', `${deployUser}@${deployHost}`, `docker pull ${projectUser}/${projectRepo}:${projectTag}`];
 
 			console.log('Pulling image...');
