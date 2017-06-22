@@ -1,4 +1,5 @@
 const childProcess = require('child_process');
+const fs = require('fs');
 
 // Run commands in the shell
 function exec(cmd, args, options){
@@ -24,6 +25,19 @@ function exec(cmd, args, options){
 	});
 }
 
+function isDirSync(path) {
+	try {
+		return fs.statSync(path).isDirectory();
+	} catch (e) {
+		if (e.code === 'ENOENT') {
+			return false;
+		} else {
+			throw e;
+		}
+	}
+}
+
 module.exports = {
-	exec
+	exec,
+	isDirSync
 };

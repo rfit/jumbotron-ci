@@ -1,5 +1,7 @@
 const requireDir = require('require-dir');
 
+const utils = require('./utils');
+
 // Namespaces
 const namespaces = {
 	aws: require('./aws'),
@@ -8,8 +10,11 @@ const namespaces = {
 };
 
 // Load any local modules
-const extraModules = requireDir(`${process.cwd()}/.jumbotron-ci-modules`);
-Object.assign(namespaces, extraModules);
+const extraModulesPath = `${process.cwd()}/.jumbotron-ci-modules`;
+if (utils.isDirSync(extraModulesPath)) {
+	const extraModules = requireDir();
+	Object.assign(namespaces, extraModules);
+}
 
 function run() {
 	const [namespace, command, args] = argumentExtractor();
