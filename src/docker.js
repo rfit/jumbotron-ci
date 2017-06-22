@@ -79,6 +79,7 @@ function deploy() {
 	const deployUser = process.env.DEPLOY_USER;
 
 	const dockerEnvVarsRequired = [
+		'APP_NAME',
 		'AWS__ACCESS_KEY_ID',
 		'AWS__SECRET_ACCESS_KEY',
 		'AWS__S3_BUCKET',
