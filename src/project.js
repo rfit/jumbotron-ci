@@ -10,7 +10,7 @@ const commands = {
 	}
 };
 
-function commandHandler(command, args) {
+function commandHandler(command, ...args) {
 	if (commands.hasOwnProperty(command)) {
 		return environment.ensure([
 			'CIRCLECI'
@@ -19,7 +19,7 @@ function commandHandler(command, args) {
 				return environment.ensure(commands[command].requiredEnvVars);
 			})
 			.then(() => {
-				return commands[command].fn(args);
+				return commands[command].fn(...args);
 			});
 	}
 	else {
@@ -27,7 +27,7 @@ function commandHandler(command, args) {
 	}
 }
 
-function setBuildDetails(packageJsonSubPath) {
+function setBuildDetails(packageJsonSubPath = 'package.json') {
 	const packageJsonPath = `${process.cwd()}/${packageJsonSubPath}`;
 
 	const buildDetails = {};
@@ -45,6 +45,10 @@ function setBuildDetails(packageJsonSubPath) {
 	}
 	else if (process.env.CIRCLE_BRANCH) {
 		buildDetails.branch = process.env.CIRCLE_BRANCH;
+	}
+
+	if (Object.keys(buildDetails).length === 0) {
+		buildDetails.branch ='local-development';
 	}
 
 	return new Promise((resolve, reject) => {

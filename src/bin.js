@@ -9,7 +9,7 @@ function run() {
 	const [namespace, command, args] = argumentExtractor();
 
 	if (namespaces.hasOwnProperty(namespace)) {
-		return namespaces[namespace].commandHandler(command, args)
+		return namespaces[namespace].commandHandler(command, ...args)
 			.then(result => {
 				console.log('\nGreat success!', result);
 			})

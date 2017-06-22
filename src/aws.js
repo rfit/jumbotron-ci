@@ -14,7 +14,7 @@ const commands = {
 	}
 };
 
-function commandHandler(command, args) {
+function commandHandler(command, ...args) {
 	if (commands.hasOwnProperty(command)) {
 		return environment.hasTargetEnvironment()
 			.then(() => {
@@ -28,7 +28,7 @@ function commandHandler(command, args) {
 				return environment.ensure(commands[command].requiredEnvVars);
 			})
 			.then(() => {
-				return commands[command].fn(args);
+				return commands[command].fn(...args);
 			});
 	}
 	else {
