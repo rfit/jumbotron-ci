@@ -129,7 +129,7 @@ function deploy() {
 			// Starting container
 			let dockerEnvVars = '';
 			dockerEnvVarsRequired.forEach(envVar => {
-				dockerEnvVars += `-e ${envVar.toLowerCase()}=${process.env[envVar]} `;
+				dockerEnvVars += `-e ${envVar}=${process.env[envVar]} `;
 			});
 			dockerEnvVars = dockerEnvVars.slice(0, -1);
 
