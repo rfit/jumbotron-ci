@@ -17,7 +17,7 @@ function exec(cmd, args, options){
 		});
 
 		let stderr = '';
-		p.stdout.on('data', data => {
+		p.stderr.on('data', data => {
 			console.log(data.toString());
 			stderr += data;
 		});
