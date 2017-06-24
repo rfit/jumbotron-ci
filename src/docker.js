@@ -44,7 +44,8 @@ function commandHandler(command, ...args) {
 function buildAndPush() {
 	const projectUser = process.env.CIRCLE_PROJECT_USERNAME;
 	const projectRepo = process.env.CIRCLE_PROJECT_REPONAME;
-	const projectTag = process.env.CIRCLE_TAG ? process.env.CIRCLE_TAG : 'staging';
+	// TODO: Reenable parsing CIRCLE_TAG when CircleCI supports tag deployments in 2.0
+	const projectTag = process.env.CIRCLE_BRANCH;
 
 	return Promise.resolve()
 		.then(() => {
@@ -73,7 +74,8 @@ function buildAndPush() {
 function deploy() {
 	const projectUser = process.env.CIRCLE_PROJECT_USERNAME;
 	const projectRepo = process.env.CIRCLE_PROJECT_REPONAME;
-	const projectTag = process.env.CIRCLE_TAG ? process.env.CIRCLE_TAG : 'staging';
+	// TODO: Reenable parsing CIRCLE_TAG when CircleCI supports tag deployments in 2.0
+	const projectTag = process.env.CIRCLE_BRANCH;
 
 	const deployHost = process.env.DEPLOY_HOST;
 	const deployUser = process.env.DEPLOY_USER;
