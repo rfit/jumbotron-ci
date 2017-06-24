@@ -82,8 +82,10 @@ function deploy() {
 
 	const dockerEnvVarsRequired = [
 		'APP_NAME',
+		'TARGET_ENV',
 		'AWS__ACCESS_KEY_ID',
 		'AWS__SECRET_ACCESS_KEY',
+		'AWS__REGION',
 		'AWS__S3_BUCKET',
 		'FIREBASE__URL',
 		'FIREBASE__PROJECT_ID',
