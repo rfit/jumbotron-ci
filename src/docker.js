@@ -45,7 +45,7 @@ function buildAndPush() {
 	const projectUser = process.env.CIRCLE_PROJECT_USERNAME;
 	const projectRepo = process.env.CIRCLE_PROJECT_REPONAME;
 	// TODO: Reenable parsing CIRCLE_TAG when CircleCI supports tag deployments in 2.0
-	const projectTag = process.env.CIRCLE_BRANCH;
+	const projectTag = process.env.CIRCLE_BRANCH === 'master' ? 'production' : 'staging';
 
 	return Promise.resolve()
 		.then(() => {
@@ -75,7 +75,7 @@ function deploy() {
 	const projectUser = process.env.CIRCLE_PROJECT_USERNAME;
 	const projectRepo = process.env.CIRCLE_PROJECT_REPONAME;
 	// TODO: Reenable parsing CIRCLE_TAG when CircleCI supports tag deployments in 2.0
-	const projectTag = process.env.CIRCLE_BRANCH;
+	const projectTag = process.env.CIRCLE_BRANCH === 'master' ? 'production' : 'staging';
 
 	const deployHost = process.env.DEPLOY_HOST;
 	const deployUser = process.env.DEPLOY_USER;
@@ -90,7 +90,8 @@ function deploy() {
 		'FIREBASE__AUTH__CLIENT_EMAIL',
 		'FIREBASE__AUTH__PRIVATE_KEY',
 		'LOGGLY__TOKEN',
-		'LOGGLY__SUBDOMAIN'
+		'LOGGLY__SUBDOMAIN',
+		'WALLSIO__ACCESS_TOKEN'
 	];
 
 	return environment.ensure(dockerEnvVarsRequired)
