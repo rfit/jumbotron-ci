@@ -14,6 +14,8 @@ function ensure(vars) {
 }
 
 function ensureSync(vars) {
+	const missingVars = [];
+
 	for (let v of vars) {
 		// The env var to ensure is set in some way
 		const envVarName = v.toUpperCase();
@@ -38,12 +40,14 @@ function ensureSync(vars) {
 
 		// Check generic is set
 		if (!process.env[envVarName]) {
-			return `Missing environment variable: '${envVarName}'`;
+			missingVars.push(envVarName);
 		}
 	}
 
-	// A-okay, return no nothing!
-	return;
+	// Whine if any missing variables
+	if (missingVars.length > 0) {
+		return `Missing environment variables: ${missingVars.join(', ')}`;
+	}
 }
 
 function hasTargetEnvironment() {
