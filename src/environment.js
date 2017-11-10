@@ -14,6 +14,10 @@ function ensure(vars) {
 }
 
 function ensureSync(vars) {
+	if (vars === undefined) {
+		return;
+	}
+
 	const missingVars = [];
 
 	for (let v of vars) {
