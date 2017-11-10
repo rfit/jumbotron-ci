@@ -10,10 +10,10 @@ const namespaces = {
 };
 
 // Load any local modules
-const extraModulesPath = `${process.cwd()}/.jumbotron-ci-modules`;
-if (utils.isDirSync(extraModulesPath)) {
-	const extraModules = requireDir();
-	Object.assign(namespaces, extraModules);
+const localModulesPath = `${process.cwd()}/.jumbotron-ci-modules`;
+if (utils.isDirSync(localModulesPath)) {
+	const localModules = requireDir(localModulesPath);
+	Object.assign(namespaces, localModules);
 }
 
 function run() {
