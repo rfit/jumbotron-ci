@@ -2,12 +2,8 @@ const requireDir = require('require-dir');
 
 const utils = require('./utils');
 
-// Namespaces
-const namespaces = {
-	aws: require('./aws'),
-	docker: require('./docker'),
-	project: require('./project')
-};
+// Load modules
+const namespaces = requireDir('./modules');
 
 // Load any local modules
 const localModulesPath = `${process.cwd()}/.jumbotron-ci-modules`;

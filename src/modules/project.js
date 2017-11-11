@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const environment = require('./environment');
+const environment = require('../environment');
 
 // Commands
 const commands = {

@@ -1,6 +1,5 @@
-const utils = require('./utils');
-
-const environment = require('./environment');
+const environment = require('../environment');
+const utils = require('../utils');
 
 // Commands
 const commands = {
@@ -21,8 +20,6 @@ const commands = {
 		fn: deploy
 	}
 };
-
-/// Commands
 
 function buildAndPush() {
 	const projectUser = process.env.CIRCLE_PROJECT_USERNAME;
