@@ -1,6 +1,30 @@
 // For loading config locally for development
 require('dotenv').config({path: process.cwd()});
 
+function getCommandHandler({commands, checkHasTargetEnvironment, ensureEnvVars}) {
+	return function(command, ...args) {
+		if (commands.hasOwnProperty(command)) {
+			return Promise.resolve()
+				.then(() => {
+					if (checkHasTargetEnvironment) {
+						return hasTargetEnvironment()
+					}
+				}).then(() => {
+					return ensure(ensureEnvVars);
+				})
+				.then(() => {
+					return ensure(commands[command].requiredEnvVars);
+				})
+				.then(() => {
+					return commands[command].fn(...args);
+				});
+		}
+		else {
+			Promise.reject(`Command not recognised: ${command}`);
+		}
+	};
+}
+
 function ensure(vars) {
 	return new Promise((resolve, reject) => {
 		const err = ensureSync(vars);
@@ -63,6 +87,7 @@ function hasTargetEnvironment() {
 }
 
 module.exports = {
+	getCommandHandler,
 	ensure,
 	ensureSync,
 	hasTargetEnvironment

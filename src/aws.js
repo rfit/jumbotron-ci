@@ -14,28 +14,6 @@ const commands = {
 	}
 };
 
-function commandHandler(command, ...args) {
-	if (commands.hasOwnProperty(command)) {
-		return environment.hasTargetEnvironment()
-			.then(() => {
-				return environment.ensure([
-					'AWS_ACCESS_KEY_ID',
-					'AWS_SECRET_ACCESS_KEY',
-					'AWS_REGION',
-				]);
-			})
-			.then(() => {
-				return environment.ensure(commands[command].requiredEnvVars);
-			})
-			.then(() => {
-				return commands[command].fn(...args);
-			});
-	}
-	else {
-		Promise.reject(`Command not recognised: ${command}`);
-	}
-}
-
 function getLambda() {
 	const lambda = new AWS.Lambda({
 		apiVersion: '2015-03-31',
@@ -48,9 +26,6 @@ function getLambda() {
 
 	return lambda;
 }
-
-
-/// Commands
 
 function updateFunctionCode() {
 	const targetEnv = process.env.TARGET_ENV;
@@ -80,7 +55,15 @@ function updateFunctionCode() {
 
 module.exports = {
 	// Main entry point
-	commandHandler,
+	commandHandler: environment.getCommandHandler({
+		commands,
+		checkHasTargetEnvironment: true,
+		ensureEnvVars: [
+			'AWS_ACCESS_KEY_ID',
+			'AWS_SECRET_ACCESS_KEY',
+			'AWS_REGION',
+		]
+	}),
 
 	commands
 };

@@ -10,23 +10,6 @@ const commands = {
 	}
 };
 
-function commandHandler(command, ...args) {
-	if (commands.hasOwnProperty(command)) {
-		return environment.ensure([
-			'CIRCLECI'
-		])
-			.then(() => {
-				return environment.ensure(commands[command].requiredEnvVars);
-			})
-			.then(() => {
-				return commands[command].fn(...args);
-			});
-	}
-	else {
-		Promise.reject(`Command not recognised: ${command}`);
-	}
-}
-
 function setBuildDetails(packageJsonSubPath = 'package.json') {
 	const packageJsonPath = `${process.cwd()}/${packageJsonSubPath}`;
 
@@ -82,7 +65,13 @@ function setBuildDetails(packageJsonSubPath = 'package.json') {
 
 module.exports = {
 	// Main entry point
-	commandHandler,
+	commandHandler: environment.getCommandHandler({
+		commands,
+		checkHasTargetEnvironment: false,
+		ensureEnvVars: [
+			'CIRCLECI'
+		]
+	}),
 
 	commands
 };
