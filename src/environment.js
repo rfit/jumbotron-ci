@@ -1,5 +1,7 @@
 // For loading config locally for development
-require('dotenv').config({path: process.cwd()});
+require('dotenv').config({
+	path: `${process.cwd()}/.env`
+});
 
 function getCommandHandler({commands, checkHasTargetEnvironment, ensureEnvVars}) {
 	return function(command, ...args) {
