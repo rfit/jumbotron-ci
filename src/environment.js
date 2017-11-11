@@ -7,7 +7,7 @@ function getCommandHandler({commands, checkHasTargetEnvironment, ensureEnvVars})
 			return Promise.resolve()
 				.then(() => {
 					if (checkHasTargetEnvironment) {
-						return hasTargetEnvironment()
+						return hasTargetEnvironment();
 					}
 				}).then(() => {
 					return ensure(ensureEnvVars);
