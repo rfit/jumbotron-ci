@@ -11,13 +11,13 @@ jobs:
 
       - restore_cache:
           keys:
-           - node-modules-{{ checksum "package.json" }}
+           - node-modules-{{ arch }}-{{ checksum "package.json" }}
 
       - run:
           command: npm install --quiet
 
       - save_cache:
-          key: node-modules-{{ checksum "package.json" }}
+          key: node-modules-{{ arch }}-{{ checksum "package.json" }}
           paths:
             - "node_modules"
 
