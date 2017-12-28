@@ -22,7 +22,7 @@ function getCommandHandler({commands, checkHasTargetEnvironment, ensureEnvVars})
 				});
 		}
 		else {
-			Promise.reject(`Command not recognised: ${command}`);
+			return Promise.reject(`Command not recognised: ${command}`);
 		}
 	};
 }
