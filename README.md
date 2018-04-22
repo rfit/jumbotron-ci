@@ -29,6 +29,13 @@ Create queues for the three environments
 * `staging`
 * `production`
 
+##### JumbotronFileAddedResults
+Create new queue
+* Name: `JumbotronFileAddedResults-<environment`
+* Visibility timeout: 60 sec
+* Message retention period: Maximum (14 days)
+* Receive Message Wait Time: Maximum (20 sec) (for long polling)
+
 ##### JumbotronMediaProcessingResults
 Create new queue
 * Name: `JumbotronMediaProcessingResults-<environment`
@@ -49,10 +56,10 @@ Create functions for the three environments
   * Event type: `Object Created`
   * Prefix: `<environment>/uploads`
 * Name: `JumbotronFileAdded-<environment>`
-* Runtime: Node 6.10
+* Runtime: Node 8.10
 * ENV:
   * `TARGET_ENV`: `<environment>`
-	* `MEDIA_FN`: `JumbotronMediaProcessing`
+	* `QUEUE_URL`: URL for matching queue and environment
 * Role: The role created
 * Timeout: Maximum (5 min)
 
@@ -60,7 +67,7 @@ Create functions for the three environments
 * Create blank function
 * No trigger
 * Name: `JumbotronMediaProcessing-<environment>`
-* Runtime: Node 6.10
+* Runtime: Node 8.10
 * ENV:
   * `TARGET_ENV`: `<environment>`
   * `QUEUE_URL`: URL for matching queue and environment
