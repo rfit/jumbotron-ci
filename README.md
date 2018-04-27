@@ -2,7 +2,7 @@
 
 Run:
 ```BASH
-$ node start <namespace> <command> [args] <target-environment>
+$ node start <module> <command> [args] <target-environment>
 ```
 
 # AWS Setup

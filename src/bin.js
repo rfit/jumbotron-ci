@@ -3,29 +3,29 @@ const requireDir = require('require-dir');
 const utils = require('./utils');
 
 // Load modules
-const namespaces = requireDir('./modules');
+const modules = requireDir('./modules');
 
 // Load any local modules
 const localModulesPath = `${process.cwd()}/.jumbotron-ci-modules`;
 if (utils.isDirSync(localModulesPath)) {
 	const localModules = requireDir(localModulesPath);
-	Object.assign(namespaces, localModules);
+	Object.assign(modules, localModules);
 }
 
 function run() {
-	const [namespace, command, args] = argumentExtractor();
+	const [module, command, args] = argumentExtractor();
 
-	if (namespaces.hasOwnProperty(namespace)) {
-		return namespaces[namespace].commandHandler(command, ...args)
+	if (modules.hasOwnProperty(module)) {
+		return modules[module].commandHandler(command, ...args)
 			.then(result => {
 				console.log('\nGreat success!', result);
 			})
 			.catch((err) => {
-				return die(`Execution of '${namespace} ${command} ${args}' failed:\n${err.toString()}`);
+				return die(`Execution of '${module} ${command} ${args}' failed:\n${err.toString()}`);
 			});
 	}
 	else {
-		return die(`Namespace not recognised: ${namespace}`);
+		return die(`Module not recognised: ${module}`);
 	}
 }
 
@@ -35,12 +35,12 @@ run();
 
 // Die and print help
 function die(reason) {
-	console.log(`Syntax:\n\t$ <namespace> <command> [<args>] <target-environment>\n`);
-	console.log('Namespaces:');
-	for (let namespaceName in namespaces) {
-		console.log(`\t${namespaceName}\n\t\tCommands:`);
+	console.log(`Syntax:\n\t$ <module> <command> [<args>] <target-environment>\n`);
+	console.log('Modules:');
+	for (let moduleName in modules) {
+		console.log(`\t${moduleName}\n\t\tCommands:`);
 
-		Object.keys(namespaces[namespaceName].commands).forEach(command => {
+		Object.keys(modules[moduleName].commands).forEach(command => {
 			console.log(`\t\t\t${command}`);
 		});
 	}
@@ -51,7 +51,7 @@ function die(reason) {
 
 function argumentExtractor() {
 	// Extract command and arguments
-	const [,, namespace, command, ...args] = process.argv;
+	const [,, module, command, ...args] = process.argv;
 
 	// Extract target environment and massage it
 	let targetEnv = args.pop();
@@ -71,5 +71,5 @@ function argumentExtractor() {
 	console.log('Command:', command);
 	console.log('arguments:', args);
 
-	return [namespace, command, args];
+	return [module, command, args];
 }
