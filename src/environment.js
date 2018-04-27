@@ -11,6 +11,8 @@ function getCommandHandler({commands, checkHasTargetEnvironment, ensureEnvVars})
 					if (checkHasTargetEnvironment) {
 						return hasTargetEnvironment();
 					}
+
+					return Promise.resolve();
 				}).then(() => {
 					return ensure(ensureEnvVars);
 				})
@@ -22,20 +24,20 @@ function getCommandHandler({commands, checkHasTargetEnvironment, ensureEnvVars})
 				});
 		}
 		else {
-			return Promise.reject(`Command not recognised: ${command}`);
+			return Promise.reject(new Error(`Command not recognised: ${command}`));
 		}
 	};
 }
 
 function ensure(vars) {
 	return new Promise((resolve, reject) => {
-		const err = ensureSync(vars);
-
-		if (err) {
-			reject(err);
+		try {
+			ensureSync(vars);
+			resolve();
 		}
-
-		resolve();
+		catch (e) {
+			reject(e);
+		}
 	});
 }
 
@@ -76,7 +78,7 @@ function ensureSync(vars) {
 
 	// Whine if any missing variables
 	if (missingVars.length > 0) {
-		return `Missing environment variables: ${missingVars.join(', ')}`;
+		throw new Error(`Missing environment variables: ${missingVars.join(', ')}`);
 	}
 }
 
@@ -85,7 +87,7 @@ function hasTargetEnvironment() {
 		return Promise.resolve();
 	}
 
-	return Promise.reject('Target environment not specified');
+	return Promise.reject(new Error('Target environment not specified'));
 }
 
 module.exports = {

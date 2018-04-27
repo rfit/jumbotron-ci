@@ -8,7 +8,7 @@ const environment = require('../environment');
 const commands = {
 	'update-function-code': {
 		requiredEnvVars: [
-			'AWS_LAMBDA_FUNCTION_NAME',
+			'AWS_LAMBDA_FUNCTION_NAME'
 		],
 		fn: updateFunctionCode
 	}
@@ -52,7 +52,6 @@ function updateFunctionCode() {
 	});
 }
 
-
 module.exports = {
 	// Main entry point
 	commandHandler: environment.getCommandHandler({
@@ -61,7 +60,7 @@ module.exports = {
 		ensureEnvVars: [
 			'AWS_ACCESS_KEY_ID',
 			'AWS_SECRET_ACCESS_KEY',
-			'AWS_REGION',
+			'AWS_REGION'
 		]
 	}),
 

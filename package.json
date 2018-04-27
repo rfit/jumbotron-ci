@@ -29,6 +29,12 @@
     "require-dir": "0.3.2"
   },
   "devDependencies": {
-    "eslint": "4.0.0"
+    "eslint": "4.19.1",
+    "eslint-config-jumbotron": "git+https://github.com/rfit/eslint-config-jumbotron.git#adf8e6107e0f2c430eac92569970dd89eba29e03",
+    "eslint-config-standard": "11.0.0",
+    "eslint-plugin-import": "2.11.0",
+    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-promise": "3.7.0",
+    "eslint-plugin-standard": "3.0.1"
   }
 }

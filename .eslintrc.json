@@ -1,0 +1,7 @@
+{
+	"root": true,
+	"extends": "jumbotron",
+	"rules": {
+		"no-console": "off"
+	}
+}

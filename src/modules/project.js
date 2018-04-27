@@ -31,13 +31,13 @@ function setBuildDetails(packageJsonSubPath = 'package.json') {
 	}
 
 	if (Object.keys(buildDetails).length === 0) {
-		buildDetails.branch ='local-development';
+		buildDetails.branch = 'local-development';
 	}
 
 	return new Promise((resolve, reject) => {
 		fs.readFile(packageJsonPath, (err, data) => {
 			if (err) {
-				return reject(`Error reading ${packageJsonPath}`);
+				return void reject(new Error(`Error reading ${packageJsonPath}`));
 			}
 
 			let jsonData = {};
@@ -45,7 +45,7 @@ function setBuildDetails(packageJsonSubPath = 'package.json') {
 				jsonData = JSON.parse(data);
 			}
 			catch (e) {
-				return reject(`Could not parse ${packageJsonPath}`);
+				return void reject(new Error(`Could not parse ${packageJsonPath}`));
 			}
 
 			jsonData.jumbotron = {
@@ -54,10 +54,10 @@ function setBuildDetails(packageJsonSubPath = 'package.json') {
 
 			fs.writeFile(packageJsonPath, JSON.stringify(jsonData, null, 2), err => {
 				if (err) {
-					return reject(`Could not write ${packageJsonPath}`);
+					return void reject(new Error(`Could not write ${packageJsonPath}`));
 				}
 
-				return resolve(`Build details added to ${packageJsonPath}`);
+				resolve(`Build details added to ${packageJsonPath}`);
 			});
 		});
 	});

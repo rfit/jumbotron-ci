@@ -2,10 +2,8 @@ const childProcess = require('child_process');
 const fs = require('fs');
 
 // Run commands in the shell
-function exec(cmd, args, options){
+function exec(cmd, args, options) {
 	return new Promise((resolve, reject) => {
-		//console.log('utils.exec', cmd, args);
-
 		// Spawn process
 		const p = childProcess.spawn(cmd, args, options);
 
@@ -45,10 +43,12 @@ function exec(cmd, args, options){
 function isDirSync(path) {
 	try {
 		return fs.statSync(path).isDirectory();
-	} catch (e) {
+	}
+	catch (e) {
 		if (e.code === 'ENOENT') {
 			return false;
-		} else {
+		}
+		else {
 			throw e;
 		}
 	}
