@@ -39,8 +39,8 @@ async function makeRelease() {
 		// throw new Error('This must be performed on the master branch');
 	}
 
-	if (!gitStatus.isClean()) {
-		throw new Error('You really shouldn\t try to release when git is not clean..!');
+	if (gitStatus.conflicted.length || gitStatus.created.length || gitStatus.deleted.length || gitStatus.modified.length || gitStatus.renamed.length) {
+		throw new Error('You really shouldn\'t try to release when git has changed files..!');
 	}
 
 	// Fetch tags
