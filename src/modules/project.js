@@ -1,14 +1,90 @@
 const fs = require('fs');
 
+const git = require('simple-git/promise')(process.cwd());
+
 const environment = require('../environment');
+
+const versionRegex = /^([0-9]+)\.([0-9]+)$/;
 
 // Commands
 const commands = {
+	'make-release': {
+		requiredEnvVars: [],
+		fn: makeRelease
+	},
+
 	'set-build-details': {
 		requiredEnvVars: [],
 		fn: setBuildDetails
 	}
 };
+
+function _parseLatestTag(tag) {
+	const match = tag.match(versionRegex);
+	if (!match) {
+		return null;
+	}
+
+	return {
+		major: parseInt(match[1]),
+		minor: parseInt(match[2])
+	};
+}
+
+async function makeRelease() {
+	const gitStatus = await git.status();
+
+	// Verify that we are on the 'master' branch
+	if (gitStatus.current !== 'master') {
+		// throw new Error('This must be performed on the master branch');
+	}
+
+	if (!gitStatus.isClean()) {
+		throw new Error('You really shouldn\t try to release when git is not clean..!');
+	}
+
+	// Fetch tags
+	console.log('Fetching tags from remote (you might be prompted for password)');
+	await git.fetch('--tags');
+
+	// Check if current git-sha already has a tag
+	const gitSha = (await git.revparse('HEAD')).trim();
+	try {
+		// This will fail if the git sha doesn't have a tag
+		await git.raw(['describe', '--contains', gitSha]);
+
+		throw new Error('Current commit already has a tag');
+	}
+	catch (e) {
+		if (!e.message.includes('cannot describe')) {
+			// Rethrow other errors
+			throw e;
+		}
+	}
+
+	// Get and parse latest tag
+	const tags = await git.tags();
+	const latestTag = tags.latest;
+	if (!latestTag) {
+		throw new Error('No previous tags found');
+	}
+
+	const parsedTag = _parseLatestTag(latestTag);
+	if (!parsedTag) {
+		throw new Error(`Could not parse latest tag: ${latestTag}`);
+	}
+
+	const newTag = `${parsedTag.major}.${parsedTag.minor + 1}`;
+
+	console.log(`Previous version: ${latestTag}`);
+	console.log(`Next version:     ${newTag}`);
+
+	console.log('Tagging...');
+
+	await git.tag(['-a', '-m', `Released ${newTag}`, newTag]);
+
+	console.log('And now you push!');
+}
 
 function setBuildDetails(packageJsonSubPath = 'package.json') {
 	const packageJsonPath = `${process.cwd()}/${packageJsonSubPath}`;
@@ -66,11 +142,7 @@ function setBuildDetails(packageJsonSubPath = 'package.json') {
 module.exports = {
 	// Main entry point
 	commandHandler: environment.getCommandHandler({
-		commands,
-		checkHasTargetEnvironment: false,
-		ensureEnvVars: [
-			'CIRCLECI'
-		]
+		commands
 	}),
 
 	commands
