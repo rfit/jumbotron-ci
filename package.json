@@ -30,12 +30,12 @@
     "simple-git": "1.95.0"
   },
   "devDependencies": {
-    "eslint": "4.19.1",
-    "eslint-config-jumbotron": "git+https://github.com/rfit/eslint-config-jumbotron.git#adf8e6107e0f2c430eac92569970dd89eba29e03",
-    "eslint-config-standard": "11.0.0",
-    "eslint-plugin-import": "2.11.0",
-    "eslint-plugin-node": "6.0.1",
-    "eslint-plugin-promise": "3.7.0",
-    "eslint-plugin-standard": "3.1.0"
+    "eslint": "5.7.0",
+    "eslint-config-rasmuslp": "git+https://github.com/rasmuslp/eslint-config-rasmuslp.git#b46c1f2e9b98b4308b48ecaebec6d09ba699f60f",
+    "eslint-config-standard": "12.0.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-node": "7.0.1",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-standard": "4.0.0"
   }
 }

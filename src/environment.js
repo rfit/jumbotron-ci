@@ -1,7 +1,7 @@
 // For loading config locally for development
 require('dotenv');
 
-function getCommandHandler({commands, checkHasTargetEnvironment, ensureEnvVars}) {
+function getCommandHandler({ commands, checkHasTargetEnvironment, ensureEnvVars }) {
 	return function(command, ...args) {
 		if (commands.hasOwnProperty(command)) {
 			return Promise.resolve()
