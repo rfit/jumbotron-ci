@@ -4,7 +4,8 @@ const git = require('simple-git/promise')(process.cwd());
 
 const environment = require('../environment');
 
-const versionRegex = /^([0-9]+)\.([0-9]+)$/;
+// Matches <num>.<num>[-<preid>.<num>]
+const versionRegex = /^([\d]+)\.([\d]+)(-(\w+)\.(\d))?$/;
 
 // Commands
 const commands = {
@@ -25,10 +26,28 @@ function _parseLatestTag(tag) {
 		return null;
 	}
 
-	return {
+	const parsed = {
 		major: parseInt(match[1]),
 		minor: parseInt(match[2])
 	};
+
+	// Has pre?
+	if (match[3]) {
+		parsed.pre = {
+			id: match[4],
+			count: parseInt(match[5])
+		}
+	}
+
+	return parsed;
+}
+
+function generateNextTag(parsed) {
+	if (parsed.pre) {
+		return `${parsed.major}.${parsed.minor}-${parsed.pre.id}.${parsed.pre.count + 1}`;
+	}
+
+	return `${parsed.major}.${parsed.minor + 1}`;
 }
 
 async function makeRelease() {
@@ -74,7 +93,7 @@ async function makeRelease() {
 		throw new Error(`Could not parse latest tag: ${latestTag}`);
 	}
 
-	const newTag = `${parsedTag.major}.${parsedTag.minor + 1}`;
+	const newTag = generateNextTag(parsedTag);
 
 	console.log(`Previous version: ${latestTag}`);
 	console.log(`Next version:     ${newTag}`);
