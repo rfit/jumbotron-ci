@@ -36,7 +36,7 @@ function _parseLatestTag(tag) {
 		parsed.pre = {
 			id: match[4],
 			count: parseInt(match[5])
-		}
+		};
 	}
 
 	return parsed;
