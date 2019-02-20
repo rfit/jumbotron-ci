@@ -30,8 +30,8 @@
     "simple-git": "1.107.0"
   },
   "devDependencies": {
+    "@rasmuslp/eslint-config-rasmuslp": "1.1.0",
     "eslint": "5.14.0",
-    "eslint-config-rasmuslp": "git+https://github.com/rasmuslp/eslint-config-rasmuslp.git#b46c1f2e9b98b4308b48ecaebec6d09ba699f60f",
     "eslint-config-standard": "12.0.0",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-node": "8.0.1",
