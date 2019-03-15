@@ -1,13 +1,13 @@
 {
-  "name": "jumbotron-ci",
+  "name": "@rasmuslp/jumbotron-ci",
   "version": "1.0.0",
   "description": "CI tools for JumboTRON",
-  "main": "start.js",
+  "bin": "src/start.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
-    "do-deps": "rm -rf node_modules/ && npm install",
-    "init": "npm install --quiet --production",
-    "lint": "./node_modules/.bin/eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-node": "8.0.1",
     "eslint-plugin-promise": "4.0.1",
-    "eslint-plugin-standard": "4.0.0"
+    "eslint-plugin-standard": "4.0.0",
+    "np": "4.0.2"
   }
 }
