@@ -1,6 +1,6 @@
 {
 	"root": true,
-	"extends": "@rasmuslp/eslint-config-rasmuslp",
+	"extends": "@rasmuslp",
 	"rules": {
 		"no-console": "off"
 	}
