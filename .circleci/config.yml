@@ -9,6 +9,13 @@ commands:
       - run:
           command: npm run lint
 
+  publish:
+    steps:
+      - run:
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run:
+          command: npm publish
+
 jobs:
   test-v8:
     docker:
@@ -33,10 +40,7 @@ jobs:
       - image: node:8
     steps:
       - run-all
-      - run:
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      - run:
-          command: npm publish
+      - publish
 
 workflows:
   test-deploy:
