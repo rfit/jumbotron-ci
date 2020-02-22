@@ -35,6 +35,12 @@ jobs:
     steps:
       - run-all
 
+  test-v12:
+    docker:
+      - image: node:12.2
+    steps:
+      - run-all
+
   publish-v8:
     docker:
       - image: node:8
@@ -60,11 +66,17 @@ workflows:
             tags:
               only: /^v.*/
 
+      - test-v12:
+          filters:
+            tags:
+              only: /^v.*/
+
       - publish-v8:
           requires:
             - test-v8
             - test-v10
             - test-v11
+            - test-v12
           filters:
             tags:
               only: /^v.*/
