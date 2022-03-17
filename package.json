@@ -27,7 +27,7 @@
     "aws-sdk": "2.449.0",
     "dotenv": "8.0.0",
     "require-dir": "1.2.0",
-    "simple-git": "1.111.0"
+    "simple-git": "3.3.0"
   },
   "devDependencies": {
     "@rasmuslp/eslint-config": "1.2.0",
