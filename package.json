@@ -1,5 +1,5 @@
 {
-  "name": "@rfit/jumbotron-ci",
+  "name": "@rfit-root/jumbotron-ci",
   "version": "1.1.0",
   "description": "CI tools for JumboTRON",
   "bin": "src/start.js",
