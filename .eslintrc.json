@@ -1,6 +1,6 @@
 {
 	"root": true,
-	"extends": "@rasmuslp",
+	"extends": "@rfit-root",
 	"rules": {
 		"no-console": "off"
 	}
