@@ -1,6 +1,6 @@
 {
 	"root": true,
-	"extends": "@rfit-root",
+	"extends": "@rfit-root/eslint-config-jumbotron",
 	"rules": {
 		"no-console": "off"
 	}
