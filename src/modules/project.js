@@ -110,19 +110,19 @@ function setBuildDetails(packageJsonSubPath = 'package.json') {
 
 	const buildDetails = {};
 
-	if (process.env.CIRCLE_BUILD_NUM) {
-		buildDetails.buildNumber = process.env.CIRCLE_BUILD_NUM;
+	if (process.env.GITHUB_RUN_NUMBER) {
+		buildDetails.buildNumber = process.env.GITHUB_RUN_NUMBER;
 	}
 
-	if (process.env.CIRCLE_SHA1) {
-		buildDetails.sha = process.env.CIRCLE_SHA1;
+	if (process.env.GITHUB_SHA) {
+		buildDetails.sha = process.env.GITHUB_SHA;
 	}
 
 	if (process.env.CIRCLE_TAG) {
 		buildDetails.release = process.env.CIRCLE_TAG;
 	}
-	else if (process.env.CIRCLE_BRANCH) {
-		buildDetails.branch = process.env.CIRCLE_BRANCH;
+	else if (process.env.GITHUB_REF_NAME) {
+		buildDetails.branch = process.env.GITHUB_REF_NAME;
 	}
 
 	if (Object.keys(buildDetails).length === 0) {
