@@ -118,8 +118,8 @@ function setBuildDetails(packageJsonSubPath = 'package.json') {
 		buildDetails.sha = process.env.GITHUB_SHA;
 	}
 
-	if (process.env.CIRCLE_TAG) {
-		buildDetails.release = process.env.CIRCLE_TAG;
+	if (process.env.GITHUB_REF_TYPE && process.env.GITHUB_REF_TYPE === 'tag') {
+		buildDetails.release = process.env.GITHUB_REF_NAME;
 	}
 	else if (process.env.GITHUB_REF_NAME) {
 		buildDetails.branch = process.env.GITHUB_REF_NAME;
