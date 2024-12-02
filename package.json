@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/rfit/jumbotron-ci#readme",
   "dependencies": {
-    "aws-sdk": "2.449.0",
+    "aws-sdk": "2.814.0",
     "dotenv": "8.0.0",
     "require-dir": "1.2.0",
     "simple-git": "1.111.0"
